@@ -1,0 +1,168 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Daily Record History</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .header {
+            color: #F4EBD8;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #DCE7D5;
+            padding: 24px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        .info {
+            padding: 10px;
+            background: #F4EBD8;
+            border-radius: 6px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 16px;
+            margin: 5px 5px 5px 0;
+            border-radius: 7px;
+            background: #245B3D;
+            color: white;
+            text-decoration: none;
+        }
+
+        .button:hover {
+            background: #183D30;
+        }
+
+        .secondary {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #F4EBD8;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #c4d4bd;
+            text-align: left;
+        }
+
+        th {
+            background: #245B3D;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <h1>💰 Daily Record History</h1>
+            <p>View daily records for your animal.</p>
+        </header>
+
+        <section class="card">
+
+            <h2>🐃 {{ animal["animal_name"] }}</h2>
+
+            <p class="info">
+                <strong>Animal Type:</strong> {{ animal["animal_type"] }}
+            </p>
+
+            <p class="info">
+                <strong>Gender:</strong> {{ animal["gender"] }}
+            </p>
+
+            <a class="button"
+               href="/animal/{{ animal['id'] }}/daily-record">
+                + Add / Update Today's Record
+            </a>
+
+        </section>
+
+        <section class="card">
+
+            <h2>📋 Saved Daily Records</h2>
+
+            {% if records %}
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Morning Milk</th>
+                                <th>Evening Milk</th>
+                                <th>Feed Cost (₹)</th>
+                                <th>Grass Cost (₹)</th>
+                                <th>Doctor Cost (₹)</th>
+                                <th>Income (₹)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for record in records %}
+                                <tr>
+                                    <td>{{ record["record_date"] }}</td>
+                                    <td>{{ record["morning_milk"] or 0 }}</td>
+                                    <td>{{ record["evening_milk"] or 0 }}</td>
+                                    <td>₹{{ "%.2f"|format(record["cattle_feed"] or 0) }}</td>
+                                    <td>₹{{ "%.2f"|format(record["regular_grass"] or 0) }}</td>
+                                    <td>₹{{ "%.2f"|format(record["doctor_cost"] or 0) }}</td>
+                                    <td>₹{{ "%.2f"|format(record["income"] or 0) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            {% else %}
+
+                <p>No daily records saved yet. Add your first record above.</p>
+
+            {% endif %}
+
+        </section>
+
+        <a class="button secondary" href="/daily-records">
+            Back to Daily Records
+        </a>
+
+        <a class="button secondary" href="/dashboard">
+            Back to Dashboard
+        </a>
+
+    </main>
+
+</body>
+</html>

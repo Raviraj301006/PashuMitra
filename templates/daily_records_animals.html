@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Daily Records</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 25px 15px;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 25px;
+            color: #F4EBD8;
+        }
+
+        .header img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 7px 0 0;
+            color: #DCE7D5;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .animal-card {
+            margin-bottom: 18px;
+            padding: 22px;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .animal-card h2 {
+            margin: 0 0 10px;
+            font-size: 21px;
+        }
+
+        .animal-card h2 a {
+            color: #183D30;
+            text-decoration: none;
+        }
+
+        .animal-card h2 a:hover {
+            text-decoration: underline;
+        }
+
+        .animal-card p {
+            margin: 0 0 18px;
+            color: #506652;
+            font-size: 14px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 11px 17px;
+            border: none;
+            border-radius: 7px;
+            background: #245B3D;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #183D30;
+        }
+
+        .secondary-button {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .secondary-button:hover {
+            background: #cbdcc5;
+        }
+
+        .empty-card {
+            padding: 30px 20px;
+            background: #DCE7D5;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .empty-card h2 {
+            margin-top: 0;
+        }
+
+        .empty-card p {
+            margin-bottom: 20px;
+            color: #506652;
+            font-size: 14px;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: center;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 10px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .animal-card {
+                padding: 18px;
+            }
+
+            .button {
+                text-align: center;
+            }
+
+            .footer .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <img
+                src="{{ url_for('static', filename='pashumitra_logo.png') }}"
+                alt="PashuMitra Logo"
+            >
+
+            <div>
+                <h1>💰 Daily Records</h1>
+                <p>Select an animal to view existing entries or add a new entry.</p>
+            </div>
+        </header>
+
+        {% if animals %}
+
+            {% for animal in animals %}
+
+                <section class="animal-card">
+
+                    <h2>
+                        🐃
+                        <a href="/animal/{{ animal['id'] }}/records">
+                            {{ animal["animal_name"] }}
+                        </a>
+                    </h2>
+
+                    <p>
+                        {{ animal["animal_type"] }} · {{ animal["gender"] }}
+                    </p>
+
+                    <a class="button"
+                       href="/animal/{{ animal['id'] }}/records">
+                        View Daily Entries
+                    </a>
+
+                </section>
+
+            {% endfor %}
+
+        {% else %}
+
+            <section class="empty-card">
+                <h2>No Animals Registered Yet</h2>
+
+                <p>
+                    Add your first animal to start managing daily milk production,
+                    expenses, and income.
+                </p>
+
+                <a class="button" href="/add-animal">
+                    Add Your First Animal
+                </a>
+            </section>
+
+        {% endif %}
+
+        <div class="footer">
+            <a class="button secondary-button" href="/dashboard">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </main>
+
+</body>
+</html>

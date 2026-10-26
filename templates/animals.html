@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - My Animals</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 25px 15px;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+            color: #F4EBD8;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .brand p {
+            margin: 5px 0 0;
+            color: #DCE7D5;
+            font-size: 13px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #245B3D;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #183D30;
+        }
+
+        .animal-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 16px;
+            padding: 22px;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 12px;
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .animal-card h2 {
+            margin: 0 0 9px;
+            font-size: 21px;
+        }
+
+        .animal-card h2 a {
+            color: #183D30;
+            text-decoration: none;
+        }
+
+        .animal-card h2 a:hover {
+            text-decoration: underline;
+        }
+
+        .animal-card p {
+            margin: 0;
+            color: #506652;
+            font-size: 14px;
+        }
+
+        .empty-card {
+            padding: 30px 20px;
+            background: #DCE7D5;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .empty-card h2 {
+            margin-top: 0;
+        }
+
+        .empty-card p {
+            color: #506652;
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            margin-top: 25px;
+        }
+
+        .back-button {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .back-button:hover {
+            background: #cbdcc5;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 10px;
+            }
+
+            .header {
+                align-items: flex-start;
+            }
+
+            .brand h1 {
+                font-size: 23px;
+            }
+
+            .header > .button {
+                width: 100%;
+            }
+
+            .animal-card {
+                padding: 18px;
+            }
+
+            .animal-card .button {
+                width: 100%;
+            }
+
+            .footer .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+
+            <div class="brand">
+                <img
+                    src="{{ url_for('static', filename='pashumitra_logo.png') }}"
+                    alt="PashuMitra Logo"
+                >
+
+                <div>
+                    <h1>My Animals</h1>
+                    <p>Manage your registered livestock</p>
+                </div>
+            </div>
+
+            <a class="button" href="/add-animal">
+                + Add Animal
+            </a>
+
+        </header>
+
+        {% if animals %}
+
+            {% for animal in animals %}
+
+                <section class="animal-card">
+
+                    <div>
+                        <h2>
+                            🐃
+                            <a href="/animal/{{ animal['id'] }}">
+                                {{ animal["animal_name"] }}
+                            </a>
+                        </h2>
+
+                        <p>
+                            {{ animal["animal_type"] }} · {{ animal["gender"] }}
+                        </p>
+                    </div>
+
+                    <a class="button" href="/animal/{{ animal['id'] }}">
+                        View Details
+                    </a>
+
+                </section>
+
+            {% endfor %}
+
+        {% else %}
+
+            <section class="empty-card">
+
+                <h2>No Animals Added Yet</h2>
+
+                <p>
+                    Register your first animal to start managing its details,
+                    daily records, expenses, and income.
+                </p>
+
+                <a class="button" href="/add-animal">
+                    Add Your First Animal
+                </a>
+
+            </section>
+
+        {% endif %}
+
+        <div class="footer">
+            <a class="button back-button" href="/dashboard">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </main>
+
+</body>
+</html>

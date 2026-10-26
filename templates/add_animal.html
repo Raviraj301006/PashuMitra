@@ -1,0 +1,466 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Add Animal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 25px 15px;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page-header {
+            max-width: 850px;
+            margin: 0 auto 22px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #F4EBD8;
+        }
+
+       .page-header img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    background: #DCE7D5;
+    padding: 5px;
+    border-radius: 8px;
+    mix-blend-mode: normal;
+}
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 27px;
+        }
+
+        .page-header p {
+            margin: 6px 0 0;
+            color: #DCE7D5;
+            font-size: 14px;
+        }
+
+        .animal-card {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 32px;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 16px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .animal-card h2 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        .subtitle {
+            margin: 0 0 28px;
+            color: #506652;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #183D30;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            display: block;
+            width: 100%;
+            min-height: 46px;
+            padding: 11px 12px;
+            border: 1px solid #c4d4bd;
+            border-radius: 8px;
+            background: #F4EBD8;
+            color: #183D30;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #245B3D;
+            box-shadow: 0 0 0 3px rgba(36, 91, 61, 0.15);
+        }
+
+        input::placeholder {
+            color: #7c8172;
+        }
+
+        .age-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .conditional-section {
+            grid-column: 1 / -1;
+            padding: 18px;
+            background: #F4EBD8;
+            border: 1px solid #e2d7c0;
+            border-radius: 10px;
+        }
+
+        .conditional-section .form-grid {
+            gap: 18px;
+        }
+
+        .conditional-section[hidden] {
+            display: none;
+        }
+
+        .form-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 45px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            background: #245B3D;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .button:hover {
+            background: #183D30;
+            transform: translateY(-1px);
+        }
+
+        .button-secondary {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .button-secondary:hover {
+            background: #cbdcc5;
+            color: #183D30;
+        }
+
+        .navigation {
+            max-width: 850px;
+            margin: 20px auto 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 18px 10px;
+            }
+
+            .page-header {
+                padding: 0 5px;
+            }
+
+            .page-header img {
+                width: 48px;
+                height: 48px;
+            }
+
+            .page-header h1 {
+                font-size: 23px;
+            }
+
+            .animal-card {
+                padding: 22px 17px;
+            }
+
+            .animal-card h2 {
+                font-size: 22px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .full-width,
+            .conditional-section {
+                grid-column: auto;
+            }
+
+            .conditional-section .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions,
+            .navigation {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="page-header">
+        <img
+            src="{{ url_for('static', filename='pashumitra_logo.png') }}"
+            alt="PashuMitra Logo"
+        >
+
+        <div>
+            <h1>PashuMitra</h1>
+            <p>Your Digital Livestock Manager</p>
+        </div>
+    </header>
+
+    <main class="animal-card">
+
+        <h2>🐃 Add Animal</h2>
+        <p class="subtitle">Add your animal details to your livestock records.</p>
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="animal_name">Animal Name / ID</label>
+                    <input
+                        type="text"
+                        id="animal_name"
+                        name="animal_name"
+                        placeholder="Example: Gauri"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="animal_type">Animal Type</label>
+                    <select name="animal_type" id="animal_type" required>
+                        <option value="">Select Animal Type</option>
+                        <option value="Buffalo">Buffalo</option>
+                        <option value="Cow / Ox">Cow / Ox</option>
+                        <option value="Sheep / Goat">Sheep / Goat</option>
+                        <option value="Horse">Horse</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender" required>
+                        <option value="">Select Gender</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <div class="age-fields">
+                        <input
+                            type="number"
+                            name="age_years"
+                            min="0"
+                            placeholder="Years"
+                            aria-label="Age in years"
+                        >
+
+                        <input
+                            type="number"
+                            name="age_months"
+                            min="0"
+                            max="11"
+                            placeholder="Months"
+                            aria-label="Age in months"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="source">Animal Source</label>
+                    <select name="source" id="source" required>
+                        <option value="">Select Source</option>
+                        <option value="Purchased">Purchased</option>
+                        <option value="Born at Home">Born at Home</option>
+                    </select>
+                </div>
+
+                <div id="purchaseFields" class="conditional-section" hidden>
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="purchase_date">Purchase Date</label>
+                            <input
+                                type="date"
+                                id="purchase_date"
+                                name="purchase_date"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="purchase_cost">Purchase Cost (₹)</label>
+                            <input
+                                type="number"
+                                id="purchase_cost"
+                                name="purchase_cost"
+                                min="0"
+                                step="0.01"
+                                placeholder="Enter amount"
+                            >
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="pregnancySection" class="form-group full-width" hidden>
+                    <label for="pregnancy">Pregnant?</label>
+                    <select name="pregnancy" id="pregnancy">
+                        <option value="">Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+
+                <div id="pregnancyDateSection" class="form-group full-width" hidden>
+                    <label for="pregnancy_date">Pregnancy Date</label>
+                    <input
+                        type="date"
+                        id="pregnancy_date"
+                        name="pregnancy_date"
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" required>
+                        <option value="">Select Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Sold">Sold</option>
+                        <option value="Dead">Dead</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button class="button" type="submit">Save Animal</button>
+                <a class="button button-secondary" href="/animals">
+                    View My Animals
+                </a>
+                <a class="button button-secondary" href="/dashboard">
+                    Back to Dashboard
+                </a>
+            </div>
+
+        </form>
+
+    </main>
+
+    <script>
+        const gender = document.getElementById("gender");
+        const source = document.getElementById("source");
+        const pregnancy = document.getElementById("pregnancy");
+
+        const purchaseFields = document.getElementById("purchaseFields");
+        const purchaseDate = document.getElementById("purchase_date");
+        const purchaseCost = document.getElementById("purchase_cost");
+
+        const pregnancySection = document.getElementById("pregnancySection");
+        const pregnancyDateSection = document.getElementById("pregnancyDateSection");
+        const pregnancyDate = document.getElementById("pregnancy_date");
+
+        function updatePurchaseFields() {
+            const isPurchased = source.value === "Purchased";
+
+            purchaseFields.hidden = !isPurchased;
+            purchaseDate.required = isPurchased;
+            purchaseCost.required = isPurchased;
+
+            if (!isPurchased) {
+                purchaseDate.value = "";
+                purchaseCost.value = "";
+            }
+        }
+
+        function updatePregnancyFields() {
+            const isFemale = gender.value === "Female";
+
+            pregnancySection.hidden = !isFemale;
+
+            if (!isFemale) {
+                pregnancy.value = "";
+                pregnancyDate.value = "";
+            }
+
+            updatePregnancyDate();
+        }
+
+        function updatePregnancyDate() {
+            const showDate =
+                gender.value === "Female" &&
+                pregnancy.value === "Yes";
+
+            pregnancyDateSection.hidden = !showDate;
+            pregnancyDate.required = showDate;
+
+            if (!showDate) {
+                pregnancyDate.value = "";
+            }
+        }
+
+        source.addEventListener("change", updatePurchaseFields);
+        gender.addEventListener("change", updatePregnancyFields);
+        pregnancy.addEventListener("change", updatePregnancyDate);
+
+        updatePurchaseFields();
+        updatePregnancyFields();
+    </script>
+
+</body>
+</html>

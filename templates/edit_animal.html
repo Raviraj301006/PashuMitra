@@ -1,0 +1,429 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Edit Animal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            min-height: 100vh;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            max-width: 800px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #F4EBD8;
+        }
+
+        .header img {
+            width: 55px;
+            height: 55px;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            color: #DCE7D5;
+            font-size: 13px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            margin: 0 0 8px;
+            font-size: 25px;
+        }
+
+        .subtitle {
+            margin: 0 0 25px;
+            color: #506652;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            min-width: 0;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            min-height: 44px;
+            padding: 11px;
+            border: 1px solid #c4d4bd;
+            border-radius: 7px;
+            background: #F4EBD8;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #245B3D;
+            box-shadow: 0 0 0 3px rgba(36, 91, 61, 0.15);
+        }
+
+        input::placeholder {
+            color: #7c8172;
+        }
+
+        .age-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .conditional-section {
+            padding: 18px;
+            background: #F4EBD8;
+            border: 1px solid #e2d7c0;
+            border-radius: 9px;
+        }
+
+        .conditional-section[hidden] {
+            display: none;
+        }
+
+        .conditional-section .form-grid {
+            gap: 16px;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #245B3D;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #183D30;
+        }
+
+        .cancel-button {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .cancel-button:hover {
+            background: #cbdcc5;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .container {
+                padding: 20px 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .full-width {
+                grid-column: auto;
+            }
+
+            .conditional-section .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <img
+            src="{{ url_for('static', filename='pashumitra_logo.png') }}"
+            alt="PashuMitra Logo"
+        >
+
+        <div>
+            <h1>PashuMitra</h1>
+            <p>Your Digital Livestock Manager</p>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <h2>✏️ Edit Animal Information</h2>
+
+        <p class="subtitle">
+            Update the details of {{ animal["animal_name"] }}.
+        </p>
+
+        <form method="POST">
+
+            <div class="form-grid">
+
+                <div class="form-group">
+                    <label for="animal_name">Animal Name / ID</label>
+                    <input
+                        type="text"
+                        id="animal_name"
+                        name="animal_name"
+                        value="{{ animal['animal_name'] }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="animal_type">Animal Type</label>
+                    <select name="animal_type" id="animal_type" required>
+                        <option value="Buffalo" {% if animal["animal_type"] == "Buffalo" %}selected{% endif %}>Buffalo</option>
+                        <option value="Cow / Ox" {% if animal["animal_type"] == "Cow / Ox" %}selected{% endif %}>Cow / Ox</option>
+                        <option value="Sheep / Goat" {% if animal["animal_type"] == "Sheep / Goat" %}selected{% endif %}>Sheep / Goat</option>
+                        <option value="Horse" {% if animal["animal_type"] == "Horse" %}selected{% endif %}>Horse</option>
+                        <option value="Other" {% if animal["animal_type"] == "Other" %}selected{% endif %}>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select name="gender" id="gender" required>
+                        <option value="Female" {% if animal["gender"] == "Female" %}selected{% endif %}>Female</option>
+                        <option value="Male" {% if animal["gender"] == "Male" %}selected{% endif %}>Male</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <div class="age-fields">
+                        <input
+                            type="number"
+                            name="age_years"
+                            min="0"
+                            placeholder="Years"
+                            aria-label="Age in years"
+                            value="{{ animal['age_years'] if animal['age_years'] is not none else '' }}"
+                        >
+
+                        <input
+                            type="number"
+                            name="age_months"
+                            min="0"
+                            max="11"
+                            placeholder="Months"
+                            aria-label="Age in months"
+                            value="{{ animal['age_months'] if animal['age_months'] is not none else '' }}"
+                        >
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="source">Animal Source</label>
+                    <select name="source" id="source" required>
+                        <option value="Purchased" {% if animal["source"] == "Purchased" %}selected{% endif %}>Purchased</option>
+                        <option value="Born at Home" {% if animal["source"] == "Born at Home" %}selected{% endif %}>Born at Home</option>
+                    </select>
+                </div>
+
+                <div id="purchaseFields" class="conditional-section full-width">
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label for="purchase_date">Purchase Date</label>
+                            <input
+                                type="date"
+                                id="purchase_date"
+                                name="purchase_date"
+                                value="{{ animal['purchase_date'] or '' }}"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="purchase_cost">Purchase Cost (₹)</label>
+                            <input
+                                type="number"
+                                id="purchase_cost"
+                                name="purchase_cost"
+                                min="0"
+                                step="0.01"
+                                placeholder="Enter amount"
+                                value="{{ animal['purchase_cost'] if animal['purchase_cost'] is not none else '' }}"
+                            >
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="pregnancySection" class="form-group full-width">
+                    <label for="pregnancy">Pregnant?</label>
+                    <select name="pregnancy" id="pregnancy">
+                        <option value="">Select</option>
+                        <option value="Yes" {% if animal["pregnancy"] == "Yes" %}selected{% endif %}>Yes</option>
+                        <option value="No" {% if animal["pregnancy"] == "No" %}selected{% endif %}>No</option>
+                    </select>
+                </div>
+
+                <div id="pregnancyDateSection" class="form-group full-width">
+                    <label for="pregnancy_date">Pregnancy Date</label>
+                    <input
+                        type="date"
+                        id="pregnancy_date"
+                        name="pregnancy_date"
+                        value="{{ animal['pregnancy_date'] or '' }}"
+                    >
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="status">Status</label>
+                    <select name="status" id="status" required>
+                        <option value="Active" {% if animal["status"] == "Active" %}selected{% endif %}>Active</option>
+                        <option value="Sold" {% if animal["status"] == "Sold" %}selected{% endif %}>Sold</option>
+                        <option value="Dead" {% if animal["status"] == "Dead" %}selected{% endif %}>Dead</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <div class="actions">
+                <button class="button" type="submit">Save Changes</button>
+
+                <a class="button cancel-button"
+                   href="/animal/{{ animal['id'] }}">
+                    Cancel
+                </a>
+            </div>
+
+        </form>
+
+    </main>
+
+    <script>
+        const gender = document.getElementById("gender");
+        const source = document.getElementById("source");
+        const pregnancy = document.getElementById("pregnancy");
+
+        const purchaseFields = document.getElementById("purchaseFields");
+        const purchaseDate = document.getElementById("purchase_date");
+        const purchaseCost = document.getElementById("purchase_cost");
+
+        const pregnancySection = document.getElementById("pregnancySection");
+        const pregnancyDateSection = document.getElementById("pregnancyDateSection");
+        const pregnancyDate = document.getElementById("pregnancy_date");
+
+        function updatePurchaseFields() {
+            const isPurchased = source.value === "Purchased";
+
+            purchaseFields.hidden = !isPurchased;
+            purchaseDate.required = isPurchased;
+            purchaseCost.required = isPurchased;
+
+            if (!isPurchased) {
+                purchaseDate.value = "";
+                purchaseCost.value = "";
+            }
+        }
+
+        function updatePregnancyDate() {
+            const showDate =
+                gender.value === "Female" &&
+                pregnancy.value === "Yes";
+
+            pregnancyDateSection.hidden = !showDate;
+            pregnancyDate.required = showDate;
+
+            if (!showDate) {
+                pregnancyDate.value = "";
+            }
+        }
+
+        function updatePregnancyFields() {
+            const isFemale = gender.value === "Female";
+
+            pregnancySection.hidden = !isFemale;
+
+            if (!isFemale) {
+                pregnancy.value = "";
+                pregnancyDate.value = "";
+            }
+
+            updatePregnancyDate();
+        }
+
+        source.addEventListener("change", updatePurchaseFields);
+        gender.addEventListener("change", updatePregnancyFields);
+        pregnancy.addEventListener("change", updatePregnancyDate);
+
+        updatePurchaseFields();
+        updatePregnancyFields();
+    </script>
+
+</body>
+</html>

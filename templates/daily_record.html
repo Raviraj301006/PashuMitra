@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Add Daily Record</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px 15px;
+            min-height: 100vh;
+            background: #183D30;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .header {
+            margin-bottom: 22px;
+            color: #F4EBD8;
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 6px 0;
+            color: #DCE7D5;
+            font-size: 14px;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            padding: 25px;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            margin: 0 0 20px;
+            font-size: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            min-height: 45px;
+            padding: 11px 12px;
+            border: 1px solid #c4d4bd;
+            border-radius: 7px;
+            background: #F4EBD8;
+            color: #183D30;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #245B3D;
+            box-shadow: 0 0 0 3px rgba(36, 91, 61, 0.15);
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #245B3D;
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #183D30;
+        }
+
+        .secondary-button {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .secondary-button:hover {
+            background: #cbdcc5;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
+            .card {
+                padding: 18px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .button {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+            <h1>💰 Daily Record</h1>
+            <p>
+                Animal: {{ animal["animal_name"] }}
+            </p>
+            <p>
+                {{ animal["animal_type"] }} · {{ animal["gender"] }}
+            </p>
+            <p>Date: {{ today }}</p>
+        </header>
+
+        <form method="POST">
+
+            <section class="card">
+
+                <h2>💸 Expenses</h2>
+
+                <div class="form-group">
+                    <label for="cattle_feed">Cattle Feed Cost (₹)</label>
+                    <input
+                        type="number"
+                        id="cattle_feed"
+                        name="cattle_feed"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="regular_grass">Regular Grass Cost (₹)</label>
+                    <input
+                        type="number"
+                        id="regular_grass"
+                        name="regular_grass"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctor_cost">Doctor Cost (₹)</label>
+                    <input
+                        type="number"
+                        id="doctor_cost"
+                        name="doctor_cost"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+                </div>
+
+            </section>
+
+            {% if animal["gender"] == "Female" %}
+
+                <section class="card">
+
+                    <h2>🥛 Milk Production</h2>
+
+                    <div class="form-group">
+                        <label for="morning_milk">Morning Milk (Litres)</label>
+                        <input
+                            type="number"
+                            id="morning_milk"
+                            name="morning_milk"
+                            min="0"
+                            step="0.1"
+                            value="0"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evening_milk">Evening Milk (Litres)</label>
+                        <input
+                            type="number"
+                            id="evening_milk"
+                            name="evening_milk"
+                            min="0"
+                            step="0.1"
+                            value="0"
+                            required
+                        >
+                    </div>
+
+                </section>
+
+            {% endif %}
+
+            <section class="card">
+
+                <h2>💰 Earnings</h2>
+
+                <div class="form-group">
+                    <label for="income">Income (₹)</label>
+                    <input
+                        type="number"
+                        id="income"
+                        name="income"
+                        min="0"
+                        step="0.01"
+                        value="0"
+                        required
+                    >
+                </div>
+
+                <button class="button" type="submit">
+                    Save Daily Record
+                </button>
+
+            </section>
+
+        </form>
+
+        <div class="actions">
+            <a class="button secondary-button" href="/daily-records">
+                Back to Daily Records
+            </a>
+
+            <a class="button secondary-button"
+               href="/animal/{{ animal['id'] }}/records">
+                View Animal History
+            </a>
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Registration</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 25px 15px;
+            background: #183D30;
+            font-family: Arial, Helvetica, sans-serif;
+            color: #183D30;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-card {
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            background: #DCE7D5;
+            border: 1px solid #c4d4bd;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+        }
+
+        .brand-panel {
+            background: #DCE7D5;
+            padding: 30px 22px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .logo {
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
+            display: block;
+            mix-blend-mode: multiply;
+        }
+
+        .brand-name {
+            margin: 14px 0 6px;
+            color: #183D30;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 29px;
+        }
+
+        .brand-tagline {
+            margin: 0;
+            color: #45634D;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .brand-line {
+            width: 42px;
+            height: 3px;
+            border-radius: 5px;
+            background: #245B3D;
+            margin-top: 20px;
+        }
+
+        .form-panel {
+            padding: 38px 42px;
+            background: #DCE7D5;
+        }
+
+        .form-panel h2 {
+            margin: 0 0 9px;
+            font-size: 27px;
+            color: #183D30;
+        }
+
+        .subtitle {
+            margin: 0 0 25px;
+            color: #506652;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #183D30;
+        }
+
+        input,
+        select {
+            display: block;
+            width: 100%;
+            height: 46px;
+            padding: 0 13px;
+            border: 1px solid #c4d4bd;
+            border-radius: 8px;
+            background: #F4EBD8;
+            color: #183D30;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input::placeholder {
+            color: #7c8172;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #245B3D;
+            box-shadow: 0 0 0 3px rgba(36, 91, 61, 0.15);
+        }
+
+        .hint {
+            display: block;
+            margin-top: 6px;
+            color: #506652;
+            font-size: 12px;
+        }
+
+        .create-button {
+            width: 100%;
+            height: 48px;
+            margin-top: 4px;
+            border: none;
+            border-radius: 8px;
+            background: #245B3D;
+            color: #FFFFFF;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .create-button:hover {
+            background: #183D30;
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            margin: 22px 0 0;
+            text-align: center;
+            color: #506652;
+            font-size: 13px;
+        }
+
+        .login-link a {
+            margin-left: 4px;
+            color: #183D30;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                align-items: flex-start;
+                padding: 15px 10px;
+            }
+
+            .register-card {
+                max-width: 430px;
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                padding: 18px;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .brand-name {
+                margin-top: 8px;
+                font-size: 24px;
+            }
+
+            .brand-line {
+                margin-top: 10px;
+            }
+
+            .form-panel {
+                padding: 26px 22px;
+            }
+
+            .form-panel h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="register-card">
+
+        <section class="brand-panel">
+            <img
+                class="logo"
+                src="{{ url_for('static', filename='pashumitra_logo.png') }}"
+                alt="PashuMitra logo"
+            >
+
+            <h1 class="brand-name">PashuMitra</h1>
+
+            <p class="brand-tagline">
+                Your Digital Livestock Manager
+            </p>
+
+            <div class="brand-line"></div>
+        </section>
+
+        <section class="form-panel">
+            <h2>Create Your Account</h2>
+
+            <p class="subtitle">
+                Manage your livestock simply and efficiently.
+            </p>
+
+            <form method="POST">
+
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name"
+                           placeholder="Enter your full name"
+                           autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="mobile">Mobile Number *</label>
+                    <input type="tel" id="mobile" name="mobile"
+                           pattern="[0-9]{10}" maxlength="10"
+                           inputmode="numeric"
+                           placeholder="Enter 10-digit mobile number"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address (Optional)</label>
+                    <input type="email" id="email" name="email"
+                           placeholder="Enter your email address"
+                           autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password"
+                           minlength="6" placeholder="Create a password"
+                           autocomplete="new-password" required>
+                    <span class="hint">Minimum 6 characters</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State *</label>
+                    <select id="state" name="state" required>
+                        <option value="">Select your state</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                </div>
+
+                <button class="create-button" type="submit">
+                    Create Account
+                </button>
+
+            </form>
+
+            <p class="login-link">
+                Already have an account?
+                <a href="{{ url_for('login') }}">Login</a>
+            </p>
+        </section>
+
+    </main>
+</body>
+</html>

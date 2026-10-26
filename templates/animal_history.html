@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PashuMitra - Animal Information</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 25px;
+            background: #183D30;
+            font-family: Arial, sans-serif;
+            color: #183D30;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #DCE7D5;
+            border-radius: 12px;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 28px;
+        }
+
+        h2 {
+            margin-top: 25px;
+            border-bottom: 2px solid #245B3D;
+            padding-bottom: 10px;
+        }
+
+        .animal-type {
+            color: #506652;
+        }
+
+        .info {
+            margin: 15px 0;
+            padding: 12px;
+            background: #F4EBD8;
+            border-radius: 6px;
+        }
+
+        .info strong {
+            color: #183D30;
+        }
+
+        button {
+            padding: 11px 16px;
+            margin: 5px 5px 5px 0;
+            background: #245B3D;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #183D30;
+        }
+
+        .back-button {
+            background: #F4EBD8;
+            color: #183D30;
+            border: 1px solid #b9cbb2;
+        }
+
+        .back-button:hover {
+            background: #cbdcc5;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🐃 {{ animal["animal_name"] }}</h1>
+
+        <p class="animal-type">
+            {{ animal["animal_type"] }} · {{ animal["gender"] }}
+        </p>
+
+        <a href="/animal/{{ animal['id'] }}/edit">
+            <button type="button">✏️ Edit Animal Details</button>
+        </a>
+
+        <h2>📋 Animal Information</h2>
+
+        <p class="info">
+            <strong>Animal Name:</strong>
+            {{ animal["animal_name"] }}
+        </p>
+
+        <p class="info">
+            <strong>Animal Type:</strong>
+            {{ animal["animal_type"] }}
+        </p>
+
+        <p class="info">
+            <strong>Gender:</strong>
+            {{ animal["gender"] }}
+        </p>
+
+        <p class="info">
+            <strong>Age:</strong>
+            {{ animal["age_years"] or 0 }} years
+            {{ animal["age_months"] or 0 }} months
+        </p>
+
+        <p class="info">
+            <strong>Source:</strong>
+            {{ animal["source"] or "Not provided" }}
+        </p>
+
+        {% if animal["source"] == "Purchased" %}
+
+            <p class="info">
+                <strong>Purchase Date:</strong>
+                {{ animal["purchase_date"] or "Not provided" }}
+            </p>
+
+            <p class="info">
+                <strong>Purchase Cost:</strong>
+
+                {% if animal["purchase_cost"] is not none %}
+                    ₹{{ "%.2f"|format(animal["purchase_cost"]) }}
+                {% else %}
+                    Not provided
+                {% endif %}
+            </p>
+
+        {% endif %}
+
+        {% if animal["gender"] == "Female" %}
+
+            <p class="info">
+                <strong>Pregnant:</strong>
+                {{ animal["pregnancy"] or "Not provided" }}
+            </p>
+
+            {% if animal["pregnancy"] == "Yes" %}
+
+                <p class="info">
+                    <strong>Pregnancy Date:</strong>
+                    {{ animal["pregnancy_date"] or "Not provided" }}
+                </p>
+
+            {% endif %}
+
+        {% endif %}
+
+        <p class="info">
+            <strong>Status:</strong>
+            {{ animal["status"] }}
+        </p>
+
+        <hr>
+
+        <a href="/animals">
+            <button class="back-button" type="button">
+                Back to My Animals
+            </button>
+        </a>
+
+        <a href="/dashboard">
+            <button class="back-button" type="button">
+                Back to Dashboard
+            </button>
+        </a>
+
+    </div>
+
+</body>
+</html>
